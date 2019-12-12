@@ -24,14 +24,14 @@ namespace ContosoUniversityDemo.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Department>>> GetDepartment()
         {
-            return await _context.Department.ToListAsync();
+            return await _context.Department.Where(x=>!x.IsDeleted).ToListAsync();
         }
 
         // GET: api/Departments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Department>> GetDepartment(int id)
         {
-            var department = await _context.Department.FindAsync(id);
+            var department = await _context.Department.Where(x =>x.DepartmentId.Equals(id) && !x.IsDeleted).SingleOrDefaultAsync();
 
             if (department == null)
             {
@@ -50,6 +50,7 @@ namespace ContosoUniversityDemo.Controllers
                 return BadRequest();
             }
 
+            _context.Department.FromSqlInterpolated($"EXEC Department_Update {department} ");
             _context.Entry(department).State = EntityState.Modified;
 
             try
@@ -75,7 +76,8 @@ namespace ContosoUniversityDemo.Controllers
         [HttpPost]
         public async Task<ActionResult<Department>> PostDepartment(Department department)
         {
-            _context.Department.Add(department);
+            _context.Department.FromSqlInterpolated($"EXEC Department_Insert {department.Name}, {department.Budget},'{department.StartDate}', {department.InstructorId}");
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetDepartment", new { id = department.DepartmentId }, department);
@@ -91,7 +93,9 @@ namespace ContosoUniversityDemo.Controllers
                 return NotFound();
             }
 
-            _context.Department.Remove(department);
+            //_context.Department.FromSqlInterpolated($"EXEC Department_Delete {department.DepartmentId}, {department.RowVersion}");
+
+            department.IsDeleted = true;
             await _context.SaveChangesAsync();
 
             return department;

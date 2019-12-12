@@ -22,7 +22,7 @@ namespace ContosoUniversityDemo.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourse()
         {
-            return await _context.Course.ToListAsync();
+            return await _context.Course.Where(x => !x.IsDeleted).ToListAsync();
         }
 
         [HttpGet]
@@ -47,7 +47,7 @@ namespace ContosoUniversityDemo.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Course>> GetCourse(int id)
         {
-            var course = await _context.Course.FindAsync(id);
+            var course = await _context.Course.Where(x=>x.CourseId.Equals(id) && !x.IsDeleted).SingleOrDefaultAsync();
 
             if (course == null)
             {
@@ -107,7 +107,8 @@ namespace ContosoUniversityDemo.Controllers
                 return NotFound();
             }
 
-            _context.Course.Remove(course);
+            //_context.Course.Remove(course);
+            course.IsDeleted = true;
             await _context.SaveChangesAsync();
 
             return course;

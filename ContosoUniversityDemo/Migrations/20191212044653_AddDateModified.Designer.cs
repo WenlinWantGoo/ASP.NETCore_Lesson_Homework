@@ -4,14 +4,16 @@ using ContosoUniversityDemo.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ContosoUniversityDemo.Migrations
 {
     [DbContext(typeof(ContosouniversityContext))]
-    partial class ContosouniversityContextModelSnapshot : ModelSnapshot
+    [Migration("20191212044653_AddDateModified")]
+    partial class AddDateModified
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,9 +40,6 @@ namespace ContosoUniversityDemo.Migrations
                         .HasColumnName("DepartmentID")
                         .HasColumnType("int")
                         .HasDefaultValueSql("((1))");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(50)")
@@ -93,9 +92,6 @@ namespace ContosoUniversityDemo.Migrations
                     b.Property<int?>("InstructorId")
                         .HasColumnName("InstructorID")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(50)")
@@ -195,9 +191,6 @@ namespace ContosoUniversityDemo.Migrations
 
                     b.Property<DateTime?>("HireDate")
                         .HasColumnType("datetime");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
