@@ -10,6 +10,7 @@ using ContosoUniversityDemo.Models;
 namespace ContosoUniversityDemo.Controllers
 {
     [Route("api/[controller]")]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     [ApiController]
     public class OfficeAssignmentsController : ControllerBase
     {

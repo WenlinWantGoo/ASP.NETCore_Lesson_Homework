@@ -30,6 +30,8 @@ namespace ContosoUniversityDemo
             services.AddDbContext<ContosouniversityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddSwaggerDocument();
+
             services.AddControllers();
         }
 
@@ -46,6 +48,9 @@ namespace ContosoUniversityDemo
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             app.UseEndpoints(endpoints =>
             {

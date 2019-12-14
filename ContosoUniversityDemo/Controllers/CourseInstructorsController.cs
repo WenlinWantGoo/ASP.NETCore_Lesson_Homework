@@ -29,6 +29,9 @@ namespace ContosoUniversityDemo.Controllers
 
         // GET: api/CourseInstructors/5
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<CourseInstructor>> GetCourseInstructor(int id)
         {
             var courseInstructor = await _context.CourseInstructor.FindAsync(id);
@@ -45,6 +48,10 @@ namespace ContosoUniversityDemo.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> PutCourseInstructor(int id, CourseInstructor courseInstructor)
         {
             if (id != courseInstructor.CourseId)
@@ -77,6 +84,9 @@ namespace ContosoUniversityDemo.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<CourseInstructor>> PostCourseInstructor(CourseInstructor courseInstructor)
         {
             _context.CourseInstructor.Add(courseInstructor);
@@ -101,6 +111,9 @@ namespace ContosoUniversityDemo.Controllers
 
         // DELETE: api/CourseInstructors/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<CourseInstructor>> DeleteCourseInstructor(int id)
         {
             var courseInstructor = await _context.CourseInstructor.FindAsync(id);
