@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using ContosoUniversityDemo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ContosoUniversityDemo.Controllers
 {
@@ -58,9 +60,42 @@ namespace ContosoUniversityDemo.Controllers
             return course;
         }
 
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchCourse(int id, CourseViewModel course)
+        {
+            var result = this._context.Course.Find(id);
+
+            if (!await TryUpdateModelAsync(result))
+            {
+                return BadRequest();
+            }
+
+            result.Credits = course.Credits;
+            _context.Entry(result).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CourseExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+
         // PUT: api/Courses/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCourse(int id, Course course)
+       public async Task<IActionResult> PutCourse(int id, Course course)
         {
             if (id != course.CourseId)
             {
@@ -119,5 +154,12 @@ namespace ContosoUniversityDemo.Controllers
         {
             return _context.Course.Any(e => e.CourseId == id);
         }
+    }
+
+    public class CourseViewModel
+    {
+        [Range(0,10)]
+        public int Credits { get; set; }
+
     }
 }
