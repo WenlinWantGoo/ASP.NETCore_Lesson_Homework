@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ContosoUniversityDemo.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -26,6 +27,15 @@ namespace ContosoUniversityDemo.Controllers
         public async Task<ActionResult<IEnumerable<Course>>> GetCourse()
         {
             return await _context.Course.Where(x => !x.IsDeleted).ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("course-bug")]
+        public ActionResult<int> GetExceptionTest()
+        {
+            var a = 0;
+            var b = 1 / a;
+            return b;
         }
 
         [HttpGet]

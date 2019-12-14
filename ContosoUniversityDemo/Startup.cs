@@ -40,8 +40,11 @@ namespace ContosoUniversityDemo
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
+            
+                app.UseExceptionHandler("/error");
             }
+            
 
             app.UseHttpsRedirection();
 
