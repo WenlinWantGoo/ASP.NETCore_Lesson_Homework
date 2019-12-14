@@ -83,7 +83,7 @@ namespace ContosoUniversityDemo.Controllers
             _context.Enrollment.Add(enrollment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEnrollment", new { id = enrollment.EnrollmentId }, enrollment);
+            return CreatedAtAction(nameof(GetEnrollment), new { id = enrollment.EnrollmentId }, enrollment);
         }
 
         // DELETE: api/Enrollments/5

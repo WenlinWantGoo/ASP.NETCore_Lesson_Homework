@@ -83,7 +83,7 @@ namespace ContosoUniversityDemo.Controllers
             _context.Person.Add(person);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPerson", new { id = person.Id }, person);
+            return CreatedAtAction(nameof(GetPerson), new { id = person.Id }, person);
         }
 
         // DELETE: api/People/5

@@ -95,7 +95,7 @@ namespace ContosoUniversityDemo.Controllers
             _context.Course.Add(course);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCourse", new {id = course.CourseId}, course);
+            return CreatedAtAction(nameof(GetCourse), new {id = course.CourseId}, course);
         }
 
         // DELETE: api/Courses/5

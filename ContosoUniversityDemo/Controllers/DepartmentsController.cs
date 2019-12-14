@@ -10,7 +10,6 @@ using ContosoUniversityDemo.Models;
 namespace ContosoUniversityDemo.Controllers
 {
     [Route("api/[controller]")]
-    [ApiConventionType(typeof(DefaultApiConventions))]
     [ApiController]
     public class DepartmentsController : ControllerBase
     {
@@ -44,6 +43,10 @@ namespace ContosoUniversityDemo.Controllers
 
         // PUT: api/Departments/5
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> PutDepartment(int id, Department department)
         {
             if (id != department.DepartmentId)
@@ -75,6 +78,8 @@ namespace ContosoUniversityDemo.Controllers
 
         // POST: api/Departments
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Department>> PostDepartment(Department department)
         {
             _context.Department.FromSqlInterpolated($"EXEC Department_Insert {department.Name}, {department.Budget},'{department.StartDate}', {department.InstructorId}");
@@ -86,6 +91,9 @@ namespace ContosoUniversityDemo.Controllers
 
         // DELETE: api/Departments/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Department>> DeleteDepartment(int id)
         {
             var department = await _context.Department.FindAsync(id);
