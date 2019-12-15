@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace ContosoUniversityDemo.Controllers
 {
@@ -16,16 +18,19 @@ namespace ContosoUniversityDemo.Controllers
     public class CoursesController : ControllerBase
     {
         private readonly ContosouniversityContext _context;
+        private readonly ILogger<CoursesController> _logger;
 
-        public CoursesController(ContosouniversityContext context)
+        public CoursesController(ContosouniversityContext context, ILogger<CoursesController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Courses
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourse()
         {
+            _logger.LogInformation( $"Total count {_context.Course.Count()}");
             return await _context.Course.Where(x => !x.IsDeleted).ToListAsync();
         }
 
